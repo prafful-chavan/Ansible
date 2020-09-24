@@ -1,0 +1,29 @@
+#Written by prafful Chavan
+#Date: 20-05-2020
+#!/bin/bash  
+
+dnf -y install python3-pip
+
+sudo dnf -y install https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm
+
+dnf install –enablerepo epel-playground ansible -y
+
+useradd ansible
+
+echo ‘ansible:123’ | chpasswd
+
+echo “ansible ALL=(ALL) NOPASSWD: ALL” >> /etc/sudoers
+
+sed -ie ‘s/PasswordAuthentication no/PasswordAuthentication yes/’ /etc/ssh/sshd_config
+
+service sshd restart
+
+#Then, switch user to ansible 
+
+su ansible
+
+#Then, generate keygen and copy ssh id with the host public id.
+
+#echo -e “\n”|ssh-keygen -t rsa -N “”
+
+#ssh-copy-id <target-server-ip-address>
